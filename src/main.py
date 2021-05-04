@@ -1,11 +1,12 @@
-#from tkinter import *
 import tkinter as tk
 
 root = tk.Tk()
+root.geometry("800x800")
 
+#Initialize a matrix to keep track of all the widgets (buttons, entry fields, etc.)
 widgets = [ [ 0 for i in range(50) ] for j in range(50) ]
-rowIndex = 1
 
+#Will trigger every time the user clicks the "+" button
 def clickAddSymbol(x, y):
 
     if x > 48 or y > 48:
@@ -20,11 +21,13 @@ def clickAddSymbol(x, y):
     widgets[x][y+1] = tk.Button(root, text="+", command=lambda i=x,j=y+1: clickAddSymbol(i,j))
     widgets[x][y+1].grid(row=x, column=y+1)
 
+#Will trigger every time the user clicks the "Add row" button
 def clickAddRow(index):
-    pass
+    widgets[index][0].destroy()
+    addRow(index)
 
-
-def addRow(index) -> None:
+#Adds a row in the window
+def addRow(index):
 
     widgets[index][0] = tk.Entry(root, width=5)
     widgets[index][0].grid(row=index, column=0)
@@ -38,11 +41,12 @@ def addRow(index) -> None:
     widgets[index][3] = tk.Button(root, text="+", command=lambda i=index,j=3: clickAddSymbol(i,j))
     widgets[index][3].grid(row=index, column=3)
 
+    #Add a button to add a new row below the current row
+    widgets[index+1][0] = tk.Button(root, text="Add Row", command= lambda i=index+1 : clickAddRow(i))
+    widgets[index+1][0].grid(row=index+1, column=0)
+    
 
 addRow(0)
-
-#btn1 = Button(root, text="+", command=lambda i=1,j=1: click(i,j))
-#btn1.grid(row=1, column=1)
 
 if __name__ == "__main__":
     root.mainloop()
