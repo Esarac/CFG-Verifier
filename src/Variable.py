@@ -10,6 +10,8 @@ class Variable:
     def validateVariableName(self):
         return self.name.isupper()
 
+    #validate repeated paths
+
     def __str__(self):
         string = self.name + " --> "
         for path in self.paths:

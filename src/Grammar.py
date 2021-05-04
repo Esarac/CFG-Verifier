@@ -9,6 +9,43 @@ class Grammar:
         if self.validateVariablePointExistingVariable() == False:
             raise Exception()
 
+    def stringVerifier(self, string):
+        matrix = list()
+
+        ## First
+        firstColumn = list()
+        for c in string:
+            cell = set()
+            for variable in self.variables:
+                for path in variable.paths:
+                    if c == path:
+                        cell.add(variable.name)
+            firstColumn.append(cell)
+        matrix.append(firstColumn)
+
+        ## Others
+        for j in range(1, len(string)):
+            print("j:" + str(j))
+            column = list()
+            for i in range(len(string) - j):
+                print("i:" + str(i))
+                
+                combinations = set()
+                for k in range(1, j + 1):
+                    print("k:"+str(k))
+                    combinations |= Grammar.combine(matrix[k-1][i], matrix[j-k][i+k])
+                print("combinations:" + combinations.__str__())
+
+                cell = set()
+                for c in combinations:
+                    cell |= self.foundVariablesWithPath(c)
+                print("cell:" + self.foundVariablesWithPath(c).__str__())
+                column.append(cell)
+                
+            matrix.append(column)
+        
+        return self.variables[0].name in matrix[len(matrix)-1][0]
+    
     def validateVariablesDuplicated(self):
         nameList = list()
         for variable in self.variables:
@@ -37,15 +74,34 @@ class Grammar:
         
         return found
 
+    def foundVariablesWithPath(self, path):
+        variables = set()
+        for var in self.variables:
+            for p in var.paths:
+                if p == path:
+                    variables.add(var.name)
+        return variables
+
+    @staticmethod
+    def combine(x1, x2):
+        combinations = set()
+        for a in x1:
+            for b in x2:
+                combinations.add(a + b)
+        return combinations
+                
+
     def __str__(self):
         string = "G: {"
         for variable in self.variables:
             string += "\n\t" + variable.__str__()
         return string + "\n}"
 
-var1 = Variable("S", ["AB", "Ba", "b"])
-var2 = Variable("A", ["a"])
-var3 = Variable("B", ["c"])
+##Tester
+var1 = Variable("S", ["AB", "BS", "b"])
+var2 = Variable("A", ["AA","a"])
+var3 = Variable("B", ["c","a"])
 grammar = Grammar([var1, var2, var3])
 print(grammar)
+print(grammar.stringVerifier("cacab"))
 
