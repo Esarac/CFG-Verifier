@@ -24,7 +24,11 @@ def clickAddSymbol(x, y):
 #Will trigger every time the user clicks the "Add row" button
 def clickAddRow(index):
     widgets[index][0].destroy()
+    widgets[index+1][0].destroy()
     addRow(index)
+
+def clickVerify():
+    pass
 
 #Adds a row in the window
 def addRow(index):
@@ -45,6 +49,8 @@ def addRow(index):
     widgets[index+1][0] = tk.Button(root, text="Add Row", command= lambda i=index+1 : clickAddRow(i))
     widgets[index+1][0].grid(row=index+1, column=0)
     
+    widgets[index+2][0] = tk.Button(root, text="Verify", padx=10, command=clickVerify)
+    widgets[index+2][0].grid(row=index+2, column=0)
 
 addRow(0)
 
