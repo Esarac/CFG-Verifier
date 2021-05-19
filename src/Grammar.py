@@ -99,7 +99,7 @@ class Grammar:
 
 ##Tester
 var1 = Variable("S", {"AB", "BS", "b"})
-var2 = Variable("A", {"AA","a"})
+var2 = Variable("n", {"AA","a"})
 var3 = Variable("B", {"c","a"})
 grammar = Grammar([var1, var2, var3])
 print(grammar)
