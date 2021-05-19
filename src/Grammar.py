@@ -17,8 +17,8 @@ class Grammar:
         for c in string:
             cell = set()
             for variable in self.variables:
-                for path in variable.paths:
-                    if c == path:
+                for rule in variable.rules:
+                    if c == rule:
                         cell.add(variable.name)
             firstColumn.append(cell)
         matrix.append(firstColumn)
@@ -38,8 +38,8 @@ class Grammar:
 
                 cell = set()
                 for c in combinations:
-                    cell |= self.foundVariablesWithPath(c)
-                print("cell:" + self.foundVariablesWithPath(c).__str__())
+                    cell |= self.foundVariablesWithrule(c)
+                print("cell:" + self.foundVariablesWithrule(c).__str__())
                 column.append(cell)
                 
             matrix.append(column)
@@ -59,8 +59,8 @@ class Grammar:
     def validateVariablePointExistingVariable(self):
         allPoint = True
         for variable in self.variables:
-            for path in variable.paths:
-                for c in path:
+            for rule in variable.rules:
+                for c in rule:
                     if c.isupper():
                         allPoint = allPoint and self.foundVariable(c)
         return allPoint
@@ -74,11 +74,11 @@ class Grammar:
         
         return found
 
-    def foundVariablesWithPath(self, path):
+    def foundVariablesWithrule(self, rule):
         variables = set()
         for var in self.variables:
-            for p in var.paths:
-                if p == path:
+            for p in var.rules:
+                if p == rule:
                     variables.add(var.name)
         return variables
 
@@ -98,10 +98,9 @@ class Grammar:
         return string + "\n}"
 
 ##Tester
-var1 = Variable("S", ["AB", "BS", "b"])
-var2 = Variable("A", ["AA","a"])
-var3 = Variable("B", ["c","a"])
+var1 = Variable("S", {"AB", "BS", "b"})
+var2 = Variable("A", {"AA","a"})
+var3 = Variable("B", {"c","a"})
 grammar = Grammar([var1, var2, var3])
 print(grammar)
 print(grammar.stringVerifier("cacab"))
-
