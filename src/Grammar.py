@@ -90,7 +90,6 @@ class Grammar:
                 combinations.add(a + b)
         return combinations
                 
-
     def __str__(self):
         string = "G: {"
         for variable in self.variables:
@@ -98,9 +97,9 @@ class Grammar:
         return string + "\n}"
 
 ##Tester
-var1 = Variable("S", {"AB", "BS", "b"})
-var2 = Variable("n", {"AA","a"})
-var3 = Variable("B", {"c","a"})
+var1 = Variable("S", ["AB", "BS", "b"])
+var2 = Variable("A", ["AA","a"])
+var3 = Variable("B", ["c","a"])
 grammar = Grammar([var1, var2, var3])
 print(grammar)
 print(grammar.stringVerifier("cacab"))
