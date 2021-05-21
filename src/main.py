@@ -7,6 +7,8 @@ from tkinter import simpledialog
 root = tk.Tk()
 root.geometry("800x800")
 
+print("\u03BB")
+
 #Initialize a matrix to keep track of all the widgets (buttons, entry fields, etc.)
 widgets = [ [ 0 for i in range(50) ] for j in range(50) ]
 
@@ -63,8 +65,6 @@ def createVariables():
 
     for i in range(0, len(widgets)):
 
-        print("-------------------")
-
         row = widgets[i]
 
         if isinstance(row[0], tk.Entry):
@@ -75,7 +75,11 @@ def createVariables():
         for x in range(2, len(row)):
             
             if isinstance(row[x], tk.Entry):
-                vars[i][1].append(row[x].get())
+                
+                if row[x].get() == "lambda":
+                    vars[i][1].append("\u03BB")
+                else:
+                    vars[i][1].append(row[x].get())
     
     ret = []
 
