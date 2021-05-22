@@ -1,11 +1,11 @@
 class Variable:
-    '''
+    """
     This class is a representation of a variable in a grammar.
 
     Attributes:
         name (str): The name of the variable.
         rules (set): The production rules of the variable.
-    '''
+    """
 
     def __init__(self, name, rules):
         """
@@ -17,6 +17,7 @@ class Variable:
         """
         self.name = name
         self.rules = rules
+        
         self.validateVariableName()
         self.validateSize()
         self.validateIsLetter()
@@ -51,8 +52,22 @@ class Variable:
             InvalidRuleError: If a production rule has a symbol that is not a letter or lambda.
         """
         for val in self.rules:
-            if not val.isalpha() and not val == ' ':
+            if not val.isalpha() and not val == '':
                 raise IsNotLetterError("The production rule \"" + self.name + " --> "+ val + "\" has a symbol that is not a letter or lambda")
+
+    def produceEmptyStrings(self):
+        """
+        Verify if the variable can produce empty strings (lambda).
+
+        Returns:
+            bool: Indicates if the variable can produce empty strings.
+        """
+        can = False
+        for rule in self.rules:
+            if not rule:
+                can = True
+        return can
+                
 
     def __str__(self):
         """
@@ -63,7 +78,10 @@ class Variable:
         """
         string = self.name + " --> "
         for rule in self.rules:
-            string += rule + " | "
+            if rule:
+                string += rule + " | "
+            else:
+                string += "\u03BB" + " | "
         return string[:(len(string)-3)]
 
 ## Exceptions
@@ -79,3 +97,8 @@ class InvalidSizeError(Exception):
 class IsNotLetterError(Exception):
     """Raised when a production rule of a variable is not a letter or lambda."""
     pass
+
+## Tests
+#var1 = Variable("S", {"b", "a", " "})
+#print(var1)
+#print(var1.produceEmptyStrings())
