@@ -5,12 +5,12 @@ from tkinter import messagebox
 from tkinter import simpledialog
 
 root = tk.Tk()
+root.title('CFG Verifier')
 root.geometry("800x800")
-
-print("\u03BB")
 
 #Initialize a matrix to keep track of all the widgets (buttons, entry fields, etc.)
 widgets = [ [ 0 for i in range(50) ] for j in range(50) ]
+
 
 #Will trigger every time the user clicks the "+" button
 def clickAddSymbol(x, y):
@@ -110,6 +110,25 @@ def addRow(index):
     
     widgets[index+2][0] = tk.Button(root, text="Verify", padx=10, command=clickVerify)
     widgets[index+2][0].grid(row=index+2, column=0)
+
+def resetBoard():
+
+    for i in range (0, 50):
+        for j in range(0, 50):
+            try:
+                widgets[i][j].destroy()
+                widgets[i][j] = 0
+            except:
+                pass
+    
+    addRow(0)
+
+my_menu = tk.Menu(root)
+root.config(menu = my_menu)
+
+file_menu = tk.Menu(my_menu, tearoff=False)
+my_menu.add_cascade(label="File", menu=file_menu)
+file_menu.add_command(label="Reset", command=resetBoard)
 
 addRow(0)
 
