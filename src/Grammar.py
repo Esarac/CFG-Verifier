@@ -84,13 +84,11 @@ class Grammar:
         nameList = list()
         for variable in self.variables:
             nameList.append(variable.name)
-
-        duplicated = True
-        if len(nameList) == len(set(nameList)):
-            duplicated = False
-
-        if duplicated:
-            raise DuplicatedVariablesError("Corregir")
+            
+        for name in nameList:
+            if nameList.count(name)>1:
+                raise DuplicatedVariablesError("The variable name \""+name+"\" is already taken.")
+            
 
     def validatePossibleVariableRules(self):
         """
@@ -99,15 +97,12 @@ class Grammar:
         Raises:
             NotExistingVariableError: If a variable have another non existing variable in his rules set.
         """
-        allPoint = True
         for variable in self.variables:
             for rule in variable.rules:
                 for c in rule:
                     if c.isupper():
-                        allPoint = allPoint and self.foundVariable(c)
-
-        if not allPoint:
-            raise NotExistingVariableError("Corregir")
+                        if not self.foundVariable(c):
+                            raise NotExistingVariableError("The variable \""+c+"\" specified in the rule set of the variable \""+variable.name+"\" does not exist in this grammar.")
 
     def validateLambdaRules(self):
         """
@@ -118,7 +113,7 @@ class Grammar:
         """
         for i in range(1, len(self.variables)):
             if self.variables[i].produceEmptyStrings():
-                raise LambdaInNotInitialVariableError("Corregir")
+                raise LambdaInNotInitialVariableError("The variable \""+self.variables[i].name+"\" can not produce a empty string.")
             
                         
     def foundVariable(self, name):
@@ -201,9 +196,9 @@ class LambdaInNotInitialVariableError(Exception):
     pass
 
 ##Tests
-#var1 = Variable("S", {"AB", "BA",""})
-#var2 = Variable("A", {"AB","a"})
-#var3 = Variable("B", {"b"})
-#grammar = Grammar([var1, var2, var3])
-#print(grammar)
-#print(grammar.stringVerifier("babbb"))
+##var1 = Variable("S", {"AB", "BA",""})
+##var2 = Variable("A", {"AB","a"})
+##var3 = Variable("B", {"b"})
+##grammar = Grammar([var1, var2, var3])
+##print(grammar)
+##print(grammar.stringVerifier("babbb"))
