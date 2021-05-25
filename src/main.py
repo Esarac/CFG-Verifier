@@ -42,8 +42,6 @@ def clickVerify():
     try:
         vars = createVariables()
         grammar = Grammar(vars)
-        msg = grammar.stringVerifier("cacab")
-        print(grammar.stringVerifier("a"))
         result = grammar.stringVerifier(input)
 
         if (result == True):
